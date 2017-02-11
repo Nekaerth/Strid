@@ -1,10 +1,11 @@
 package main
-package game
 
-import "github.com/nequilich/gocto"
+import "github.com/Nekaerth/Strid/gui"
+import "github.com/Nekaerth/Strid/game"
+import "github.com/Nekaerth/Strid/network"
 
 func main() {
-	SetUpInterface()
-	SetUpGame()
-	SetUpInputs()
+	state := game.SetUpGame()
+	gui.SetUpInterface(state)
+	network.SetUpNetwork(state)
 }
