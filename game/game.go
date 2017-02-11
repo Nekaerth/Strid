@@ -1,7 +1,7 @@
 package game
 
 func SetUpGame() *GameState {
-	state := new(GameState)
+	state := &GameState{}
 	state.Commands = make([]Command, 0)
 	return state
 }

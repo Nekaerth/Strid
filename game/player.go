@@ -1,5 +1,5 @@
 package game
 
-type player struct {
+type Player struct {
 	
 }
