@@ -1,8 +1,8 @@
-package main
+package network
 
 import "github.com/nequilich/gocto"
-import "github.com/Nekaerth/Strid/game"
+import "github.com/nekaerth/strid/game"
 
-func SetUpNetwork(game.GameState*) {
+func SetUpNetwork(state *game.GameState) {
 	
 }
