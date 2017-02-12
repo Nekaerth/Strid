@@ -3,7 +3,7 @@ package game
 type Map struct {
 	Width int
 	Height int
-	[][]*Field Fields
+	Fields [][]*Field
 }
 
 type Field struct {
@@ -22,4 +22,8 @@ func newMap(width int, height int) *Map {
 	}
 	
 	return returnMap
+}
+
+func (field Field) getAdjacentFields() []Field {
+	//TODO
 }
