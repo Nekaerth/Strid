@@ -2,24 +2,26 @@ package game
 
 type Command struct {
 	CommandStrings []string
-	
 }
 
 func executeCommand(command Command) {
-	switch command {
-		case "move":
-			//TODO
-		case "buy":
-			//TODO
-		default:
-			//TODO
+	if command.CommandStrings == nil {
+		return
+	}
+	switch command.CommandStrings[0] {
+	case "move":
+		move(command)
+	case "buy":
+		buy(command)
+	default:
+		//TODO
 	}
 }
 
-func move() {
-	//TODO - hvilke argumenter skal funktionen tage? Command, []string?
+func move(command Command) {
+	//TODO
 }
 
-func buy() {
+func buy(command Command) {
 	//TODO
 }
