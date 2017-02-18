@@ -29,18 +29,7 @@ func SetUpInterface() {
 	gocto.GetContext2d(gridCanvas)
 	gocto.GetContext2d(menuCanvas)
 	
-	//resized := true
 	gocto.AddEventListener("resize", func() { resizeAllCanvas(body) })
-	
-	//var draw func()
-	//draw = func() {
-	//	if resized {
-	//		resizeAllCanvas(body)
-	//		resized = false
-	//	}
-	//	gocto.RequestAnimationFrame(draw)
-	//}
-	//draw()
 }
 
 func resizeAllCanvas(body Body) {
