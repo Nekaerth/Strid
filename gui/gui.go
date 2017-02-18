@@ -1,7 +1,9 @@
 package gui
 
-import "github.com/nequilich/gocto"
-import "github.com/gopherjs/gopherjs/js"
+import(
+	"github.com/nequilich/gocto"
+	"github.com/gopherjs/gopherjs/js"
+)
 
 type Body struct {
     canvasBody *js.Object
@@ -27,12 +29,23 @@ func SetUpInterface() {
 	gocto.GetContext2d(gridCanvas)
 	gocto.GetContext2d(menuCanvas)
 	
-	backgroundCanvas.Set("width", 400)
-	backgroundCanvas.Set("height", 300)
+	//resized := true
+	gocto.AddEventListener("resize", func() { resizeAllCanvas(body) })
 	
-	gridCanvas.Set("width", 400)
-	gridCanvas.Set("height", 300)
-	
-	menuCanvas.Set("width", 400)
-	menuCanvas.Set("height", 300)
+	//var draw func()
+	//draw = func() {
+	//	if resized {
+	//		resizeAllCanvas(body)
+	//		resized = false
+	//	}
+	//	gocto.RequestAnimationFrame(draw)
+	//}
+	//draw()
+}
+
+func resizeAllCanvas(body Body) {
+	for _, canvas := range body.canvasMap {
+		canvas.Set("width", gocto.GetWindowInnerWidth())
+		canvas.Set("height", gocto.GetWindowInnerHeight())
+	}
 }
