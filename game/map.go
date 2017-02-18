@@ -26,4 +26,5 @@ func newMap(width int, height int) *Map {
 
 func (field Field) getAdjacentFields() []Field {
 	//TODO
+	return nil
 }
