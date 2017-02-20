@@ -57,8 +57,8 @@ func drawGrid(context *js.Object) {
 	var polygonSides float64 = 6
 	var polygonRadius float64 = 32
 	
-	var xAdjust float64 = polygonRadius * math.Cos(math.Pi / 6)
-	var yAdjust float64 = polygonRadius * math.Sin(math.Pi / 6) * 3
+	var xAdjust float64 = polygonRadius * math.Cos(math.Pi / polygonSides)
+	var yAdjust float64 = polygonRadius * math.Sin(math.Pi / polygonSides) * (polygonSides / 2)
 	
 	heightInPolygons := (gocto.GetWindowInnerHeight() / int(polygonRadius * 1.5)) + 1
 	widthInPolygons := (gocto.GetWindowInnerWidth() / (int(xAdjust) * 2)) + 1
