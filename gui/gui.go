@@ -1,6 +1,8 @@
 package gui
 
 import(
+	"math"
+	"math/rand"
 	"github.com/nequilich/gocto"
 	"github.com/gopherjs/gopherjs/js"
 )
@@ -51,6 +53,51 @@ func SetUpInterface() {
 }
 
 func drawGrid(context *js.Object) {
-	context.Set("fillStyle", "green")
-	context.Call("fillRect", 0, 0 , gocto.GetWindowInnerWidth()/2, gocto.GetWindowInnerHeight()/2)
+	var polygonSides float64 = 6
+	var polygonRadius float64 = 32
+	
+	widthInPolygons := 10
+	heightInPolygons := 10
+	
+	context.Set("strokeStyle", "black")
+	context.Set("lineWidth", 2)
+	
+	for y := 0; y < heightInPolygons; y++ {
+		for x := 0; x < widthInPolygons; x++ {
+			var xAdjust float64 = polygonRadius * math.Cos(math.Pi / 6)
+			var yAdjust float64 = polygonRadius * math.Sin(math.Pi / 6) * 3
+			
+			var xPixel float64 = float64(x) * xAdjust * 2 + (float64(y) * xAdjust)
+			var yPixel float64 = float64(y) * yAdjust
+			
+			drawPolygon(context, xPixel, yPixel, polygonSides, polygonRadius)
+		}
+	}
+}
+
+func drawPolygon(context *js.Object, xPixel float64, yPixel float64, sides float64, radius float64) {
+	context.Set("fillStyle", getRandomColour())
+	context.Call("beginPath")
+	context.Call("moveTo",
+		xPixel + radius * math.Cos(math.Pi / sides),
+		yPixel + radius * math.Sin(math.Pi / sides))
+	for i := 0; float64(i) < sides + 1; i++ {
+		context.Call("lineTo",
+			xPixel + radius * math.Cos(float64(i) * 2 * math.Pi / sides + math.Pi / sides),
+			yPixel + radius * math.Sin(float64(i) * 2 * math.Pi / sides + math.Pi / sides))
+	}
+	context.Call("fill")
+	context.Call("stroke")
+	context.Call("closePath")
+}
+
+func getRandomColour() string {
+	n := rand.Intn(3)
+	if n == 1 {
+		return "green"
+	} else if n == 2 {
+		return "blue"
+	} else {
+		return "yellow"
+	}
 }
