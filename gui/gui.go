@@ -22,6 +22,7 @@ func (this Body) resizeAllCanvas() {
 
 func (this Body) refreshUi() {
 	drawGrid(this.contextMap["gridContext"])
+	drawMenu(this.contextMap["menuContext"])
 }
 
 func SetUpInterface() {
@@ -56,17 +57,19 @@ func drawGrid(context *js.Object) {
 	var polygonSides float64 = 6
 	var polygonRadius float64 = 32
 	
-	widthInPolygons := 10
-	heightInPolygons := 10
+	var xAdjust float64 = polygonRadius * math.Cos(math.Pi / 6)
+	var yAdjust float64 = polygonRadius * math.Sin(math.Pi / 6) * 3
+	
+	heightInPolygons := (gocto.GetWindowInnerHeight() / int(polygonRadius * 1.5)) + 1
+	widthInPolygons := (gocto.GetWindowInnerWidth() / (int(xAdjust) * 2)) + 1
 	
 	context.Set("strokeStyle", "black")
 	context.Set("lineWidth", 2)
 	
+	xStart := -(heightInPolygons / 2)
+	
 	for y := 0; y < heightInPolygons; y++ {
-		for x := 0; x < widthInPolygons; x++ {
-			var xAdjust float64 = polygonRadius * math.Cos(math.Pi / 6)
-			var yAdjust float64 = polygonRadius * math.Sin(math.Pi / 6) * 3
-			
+		for x := xStart; x < widthInPolygons; x++ {
 			var xPixel float64 = float64(x) * xAdjust * 2 + (float64(y) * xAdjust)
 			var yPixel float64 = float64(y) * yAdjust
 			
@@ -100,4 +103,9 @@ func getRandomColour() string {
 	} else {
 		return "yellow"
 	}
+}
+
+func drawMenu(context *js.Object) {
+	context.Set("fillStyle", "gray")
+	context.Call("fillRect", 0, gocto.GetWindowInnerHeight() - 100, gocto.GetWindowInnerWidth(), gocto.GetWindowInnerHeight())
 }
