@@ -7,50 +7,50 @@ import(
 	"github.com/gopherjs/gopherjs/js"
 )
 
-type Body struct {
-    canvasBody *js.Object
-    canvasMap map[string]*js.Object
+type CanvasBody struct {
+    body *gocto.Body
+    canvasMap map[string]*gocto.Canvas
 	contextMap map[string]*js.Object
 }
 
-func (this Body) resizeAllCanvas() {
+func (this CanvasBody) resizeAllCanvas() {
 	for _, canvas := range this.canvasMap {
 		canvas.Set("width", gocto.GetWindowInnerWidth())
 		canvas.Set("height", gocto.GetWindowInnerHeight())
 	}
 }
 
-func (this Body) refreshUi() {
+func (this CanvasBody) refreshUi() {
 	drawGrid(this.contextMap["gridContext"])
 	drawMenu(this.contextMap["menuContext"])
 }
 
 func SetUpInterface() {
-	var body Body = Body{gocto.GetElementById("canvasBody"), make(map[string]*js.Object), make(map[string]*js.Object)}
+	var canvasBody CanvasBody = CanvasBody{&gocto.Body{gocto.GetElementById("canvasBody")}, make(map[string]*gocto.Canvas), make(map[string]*js.Object)}
 
-	backgroundCanvas := gocto.CreateElement("canvas")
-	gridCanvas := gocto.CreateElement("canvas")
-	menuCanvas := gocto.CreateElement("canvas")
+	backgroundCanvas := &gocto.Canvas{gocto.CreateElement("canvas")}
+	gridCanvas := &gocto.Canvas{gocto.CreateElement("canvas")}
+	menuCanvas := &gocto.Canvas{gocto.CreateElement("canvas")}
 	
-	body.canvasMap["backgroundCanvas"] = backgroundCanvas
-	body.canvasMap["gridCanvas"] = gridCanvas
-	body.canvasMap["menuCanvas"] = menuCanvas
+	canvasBody.canvasMap["backgroundCanvas"] = backgroundCanvas
+	canvasBody.canvasMap["gridCanvas"] = gridCanvas
+	canvasBody.canvasMap["menuCanvas"] = menuCanvas
 	
-	gocto.AppendChild(body.canvasBody, backgroundCanvas)
-	gocto.AppendChild(body.canvasBody, gridCanvas)
-	gocto.AppendChild(body.canvasBody, menuCanvas)
+	canvasBody.body.AppendChild(backgroundCanvas)
+	canvasBody.body.AppendChild(gridCanvas)
+	canvasBody.body.AppendChild(menuCanvas)
 	
-	body.contextMap["backgroundContext"] = gocto.GetContext2d(backgroundCanvas)
-	body.contextMap["gridContext"] = gocto.GetContext2d(gridCanvas)
-	body.contextMap["menuContext"] = gocto.GetContext2d(menuCanvas)
+	canvasBody.contextMap["backgroundContext"] = backgroundCanvas.GetContext2d()
+	canvasBody.contextMap["gridContext"] = gridCanvas.GetContext2d()
+	canvasBody.contextMap["menuContext"] = menuCanvas.GetContext2d()
 	
 	gocto.AddEventListener("resize", func() {
-		body.resizeAllCanvas()
-		body.refreshUi()
+		canvasBody.resizeAllCanvas()
+		canvasBody.refreshUi()
 	})
 	
-	body.resizeAllCanvas()
-	body.refreshUi()
+	canvasBody.resizeAllCanvas()
+	canvasBody.refreshUi()
 }
 
 func drawGrid(context *js.Object) {
