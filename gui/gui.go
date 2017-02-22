@@ -106,20 +106,6 @@ func getRandomColour() string {
 }
 
 func drawMenu(context *js.Object) {
-	drawImage(context, "gui/menu-elements/menu_test_L.png", 0, gocto.GetWindowInnerHeight() - 320)
-	drawImage(context, "gui/menu-elements/menu_test_R.png", gocto.GetWindowInnerWidth() - 500, gocto.GetWindowInnerHeight() - 125)
-}
-
-func drawImage(context *js.Object, path string, x int, y int) {
-	image := newImage()
-	image.Set("src", path)
-	image.Set("onload", func() { onLoad(context, image, x, y) })
-}
-
-func newImage() *js.Object {
-	return js.Global.Get("Image").New()
-}
-
-func onLoad(context *js.Object, image *js.Object, x int, y int) {
-	context.Call("drawImage", image, x, y)
+	gocto.DrawImage(context, "gui/menu-elements/menu_test_L.png", 0, gocto.GetWindowInnerHeight() - 320)
+	gocto.DrawImage(context, "gui/menu-elements/menu_test_R.png", gocto.GetWindowInnerWidth() - 500, gocto.GetWindowInnerHeight() - 125)
 }
